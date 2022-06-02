@@ -1,0 +1,9 @@
+version: "2.0"
+services:
+  selenium-chrome:
+    container_name: selenium-chrome
+    image: selenium/standalone-chrome
+    ports:
+     - "4445:4444"
+    volumes:
+      - /dev/shm:/dev/shm

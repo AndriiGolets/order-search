@@ -1,0 +1,22 @@
+#spring:
+#  main:
+#    allow-bean-definition-overriding: true
+
+callback:
+  uri: "http://localhost:8080/selenium-bot"
+
+http:
+  parser:
+    seleniumUrl: "http://localhost:4445/wd/hub"
+    orderPageUrl: "https://allfreelancersclone.my.stacker.app/normal-orders-to-take"
+    userEmail: "og1502443@gmail.com"
+    password: "IndykInTheSky"
+    ordersListPageName: "Normal Orders to Take"
+    loginPageName: "Login"
+    delayAfterLogin: 4000
+    delayAfterOrderPageLoad: 4000
+
+logging.level.root: INFO
+
+server:
+  port: 8085

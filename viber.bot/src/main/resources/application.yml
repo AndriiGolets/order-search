@@ -1,0 +1,19 @@
+server:
+#  port: 8443
+  port: 8080
+  ssl:
+    enabled: false
+    key-alias: tomcat
+    key-store: "classpath:certs/golets.site.jks"
+    key-store-password: "123999"
+
+viberbot:
+  authToken: "4efa5ac25a67de5a-8ac2a937b00091bd-24bb6e55bcc4aef1"
+  webhookUrl: "https://golets.site"
+  name: "EchoBot"
+  avatar: "https://golets-pdf.s3.eu-central-1.amazonaws.com/geek-avatar.jpg"
+  seleniumBotUrl: "http://localhost:8085/orders"
+
+logging.level.root: INFO
+logging.level.com.viber.bot: DEBUG
+logging.level.com.gargoylesoftware: INFO
