@@ -1,6 +1,6 @@
 
 callback:
-  uri: "http://localhost:8080/selenium-bot"
+  uri: "http://localhost:8085/selenium-bot"
 
 http:
   parser:

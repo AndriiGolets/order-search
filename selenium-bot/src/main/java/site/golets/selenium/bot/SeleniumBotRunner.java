@@ -8,10 +8,10 @@ import site.golets.selenium.bot.properties.HttpParserProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({HttpParserProperties.class, CallbackProperties.class})
-public class AppRunner {
+public class SeleniumBotRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(AppRunner.class, args);
+        SpringApplication.run(SeleniumBotRunner.class, args);
     }
 
 }
