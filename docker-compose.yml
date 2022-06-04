@@ -41,6 +41,9 @@ services:
       - "4445:4444"
     volumes:
       - /dev/shm:/dev/shm
+    networks:
+      order-search-net:
+
 networks:
   order-search-net:
     driver: bridge
