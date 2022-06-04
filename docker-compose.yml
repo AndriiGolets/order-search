@@ -7,15 +7,17 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./ssl-bundle.crt:/etc/ssl/ssl-bundle.crt
       - ./golets_site.pem:/etc/ssl/golets_site.pem
+      - ./index.html:/etc/nginx/html/index.html
     ports:
       - "80:80"
+      - "443:443"
     networks:
       order-search-net:
 
   viber-bot:
     container_name: viber-bot
 #    image: viber-bot:0.1.0-SNAPSHOT
-    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/viber-bot:0.1.0-SNAPSHOT
+    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/viber-bot:0.1.1-SNAPSHOT
     ports:
       - "8085:8085"
     networks:

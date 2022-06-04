@@ -11,7 +11,7 @@
 
 	<groupId>site.golets.viber.bot</groupId>
 	<artifactId>viber-bot</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>viber.bot</name>
 	<description>Viber Bot</description>
 
