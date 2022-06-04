@@ -16,21 +16,23 @@ services:
 
   viber-bot:
     container_name: viber-bot
-#    image: viber-bot:0.1.0-SNAPSHOT
     image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/viber-bot:0.1.1-SNAPSHOT
     ports:
       - "8085:8085"
     networks:
       order-search-net:
+    depends_on:
+      - nginx
 
   selenium-bot:
     container_name: selenium-bot
-    #    image: viber-bot:0.1.0-SNAPSHOT
     image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/selenium-bot:1.0-SNAPSHOT
     ports:
       - "8083:8083"
     networks:
       order-search-net:
+    depends_on:
+      - selenium-chrome
 
   selenium-chrome:
     container_name: selenium-chrome
