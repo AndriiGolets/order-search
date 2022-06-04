@@ -6,17 +6,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Getter
 @Slf4j
 public class RegisteredUser {
 
-    private List<UserProfile> userProfiles;
+    private Map<String, UserProfile> userProfiles;
 
     public void addUserProfile(UserProfile userProfile) {
         log.info("Save UserProfile : " + userProfile);
-        userProfiles.add(userProfile);
+        userProfiles.put(userProfile.getName(), userProfile);
     }
 
 }

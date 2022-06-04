@@ -18,7 +18,7 @@ public class ViberBotService {
     }
 
     public void sendMessageToAlUsers(String message){
-        registeredUser.getUserProfiles().forEach(u ->
+        registeredUser.getUserProfiles().values().forEach(u ->
                 viberBot.sendMessage(new MessageDestination(u), new TextMessage(message)));
     }
 

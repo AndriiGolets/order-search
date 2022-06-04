@@ -16,6 +16,10 @@
     </parent>
 
     <properties>
+        <docker.image.prefix>415800032746.dkr.ecr.us-west-2.amazonaws.com</docker.image.prefix>
+        <docker.image.name>${project.artifactId}</docker.image.name>
+        <docker.image.tag>${project.version}</docker.image.tag>
+        <docker.file>Dockerfile</docker.file>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <selenium-java.version>4.1.4</selenium-java.version>
@@ -79,6 +83,30 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.10</version>
+                <configuration>
+                    <repository>${docker.image.prefix}/${docker.image.name}</repository>
+                    <!--					<repository>viber-bot</repository>-->
+                    <tag>${docker.image.tag}</tag>
+                    <dockerfile>${docker.file}</dockerfile>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

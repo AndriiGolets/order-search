@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+//@SpringBootTest
 public class OrdersPageServiceTest extends Assertions {
 
     @Autowired
@@ -34,7 +34,7 @@ public class OrdersPageServiceTest extends Assertions {
     @Autowired
     private WebDriver webDriver;
 
-    @Test
+//    @Test
     public void loginTest() throws FileNotFoundException {
 /*
 
@@ -47,7 +47,7 @@ public class OrdersPageServiceTest extends Assertions {
 
     }
 
-    @Test
+//    @Test
     public void getOrderPage() throws IOException, InterruptedException {
 
         ordersPageService.visitOrdersPage();
@@ -75,7 +75,7 @@ public class OrdersPageServiceTest extends Assertions {
         webDriver.close();
     }
 
-    @Test
+//    @Test
     public void parseOrderTest() throws IOException, InterruptedException {
 
         WebDriverManager.chromedriver().setup();

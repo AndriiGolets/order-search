@@ -23,20 +23,22 @@ services:
     networks:
       order-search-net:
 
+  selenium-bot:
+    container_name: selenium-bot
+    #    image: viber-bot:0.1.0-SNAPSHOT
+    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/selenium-bot:1.0-SNAPSHOT
+    ports:
+      - "8083:8083"
+    networks:
+      order-search-net:
+
+  selenium-chrome:
+    container_name: selenium-chrome
+    image: selenium/standalone-chrome
+    ports:
+      - "4445:4444"
+    volumes:
+      - /dev/shm:/dev/shm
 networks:
   order-search-net:
     driver: bridge
-
-#  viber-bot:
-#    container_name: viber-bot
-#    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/viber-bot:0.1.0-SNAPSHOT
-#    ports:
-#     - "443:8443"
-#
-#  selenium-chrome:
-#    container_name: selenium-chrome
-#    image: selenium/standalone-chrome
-#    ports:
-#      - "4445:4444"
-#    volumes:
-#      - /dev/shm:/dev/shm

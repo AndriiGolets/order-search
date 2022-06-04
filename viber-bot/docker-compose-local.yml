@@ -1,7 +1,0 @@
-version: "2.0"
-services:
-  viber-bot:
-    container_name: viber-bot
-    image: viber-bot:0.1.0-SNAPSHOT
-    ports:
-     - "8085:8085"

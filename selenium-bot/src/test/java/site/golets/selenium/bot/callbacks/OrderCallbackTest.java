@@ -9,13 +9,13 @@ import site.golets.selenium.bot.model.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest
+//@SpringBootTest
 public class OrderCallbackTest extends Assertions {
 
-    @Autowired
+//    @Autowired
     OrderCallback orderCallback;
 
-    @Test
+//    @Test
     public void sendNewOrders(){
 
         List<Order> orderList = new ArrayList<>();
