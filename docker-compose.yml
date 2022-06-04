@@ -1,0 +1,38 @@
+version: "2.0"
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    networks:
+      order-search-net:
+
+  viber-bot:
+    container_name: viber-bot
+#    image: viber-bot:0.1.0-SNAPSHOT
+    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/viber-bot:0.1.0-SNAPSHOT
+    ports:
+      - "8085:8085"
+    networks:
+      order-search-net:
+
+networks:
+  order-search-net:
+    driver: bridge
+
+#  viber-bot:
+#    container_name: viber-bot
+#    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/viber-bot:0.1.0-SNAPSHOT
+#    ports:
+#     - "443:8443"
+#
+#  selenium-chrome:
+#    container_name: selenium-chrome
+#    image: selenium/standalone-chrome
+#    ports:
+#      - "4445:4444"
+#    volumes:
+#      - /dev/shm:/dev/shm

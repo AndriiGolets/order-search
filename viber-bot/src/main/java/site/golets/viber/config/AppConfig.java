@@ -6,25 +6,17 @@ import com.viber.bot.profile.BotProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import site.golets.viber.properties.HttpParserProperties;
 import site.golets.viber.properties.ViberBotProperties;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 @Configuration
 public class AppConfig {
 
 
     private final ViberBotProperties viberBotProperties;
-    private final HttpParserProperties properties;
-
-
 
     @Autowired
-    public AppConfig(ViberBotProperties viberBotProperties, HttpParserProperties properties) {
+    public AppConfig(ViberBotProperties viberBotProperties) {
         this.viberBotProperties = viberBotProperties;
-        this.properties = properties;
     }
 
     @Bean
@@ -37,5 +29,6 @@ public class AppConfig {
     ViberSignatureValidator signatureValidator() {
         return new ViberSignatureValidator(viberBotProperties.getAuthToken());
     }
-
 }
+
+

@@ -28,4 +28,9 @@ public class ViberBotApiController {
 
     }
 
+    @GetMapping
+    public String getTest(){
+        return "Test Ok";
+    }
+
 }
