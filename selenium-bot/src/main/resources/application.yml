@@ -1,10 +1,10 @@
 
 callback:
-  uri: "http://localhost:8085/selenium-bot"
+  uri: "http://viber-bot:8085/selenium-bot"
 
 http:
   parser:
-    seleniumUrl: "http://localhost:4445/wd/hub"
+    seleniumUrl: "http://selenium-chrome:4444/wd/hub"
     orderPageUrl: "https://allfreelancersclone.my.stacker.app/normal-orders-to-take"
     userEmail: "og1502443@gmail.com"
     password: "IndykInTheSky"

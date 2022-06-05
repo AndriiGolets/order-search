@@ -24,13 +24,13 @@ public class TaskScheduler implements SchedulingConfigurer {
 
     @Scheduled(fixedRate = 10000)
     public void pageReloadTask() {
-        log.info("pageReloadTask started");
+        log.debug("pageReloadTask started");
         schedulerService.pageReload();
     }
 
     @Scheduled(fixedRate = 5000)
     public void newOrdersScanTask() throws InterruptedException {
-        log.info("newOrdersScanTask started");
+        log.debug("newOrdersScanTask started");
         schedulerService.scanNewOrders();
     }
 
