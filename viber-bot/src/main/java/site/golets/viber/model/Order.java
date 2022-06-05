@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Order {
+public class Order implements Comparable<Order>{
 
     private String name;
     private String artist;
@@ -13,10 +13,15 @@ public class Order {
     private String date;
     private String productVariant;
     private String photoNotOk;
+    private int heads;
+
+    @Override
+    public int compareTo(Order o) {
+        return o.heads - heads;
+    }
 
     @Override
     public String toString() {
-        return"id='" + name + '\'' +
-                ", productTitle='" + productTitle;
+        return name + " '" + productTitle + "' " + photoNotOk + " : heads " + heads;
     }
 }

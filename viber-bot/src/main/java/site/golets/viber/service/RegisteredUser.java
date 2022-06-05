@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 @Slf4j
 public class RegisteredUser {
 
-    private Map<String, UserProfile> userProfiles;
+    private final Map<String, UserProfile> userProfiles = new HashMap<>();
 
     public void addUserProfile(UserProfile userProfile) {
         log.info("Save UserProfile : " + userProfile);

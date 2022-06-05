@@ -2,6 +2,7 @@ package site.golets.viber.listener;
 
 import com.google.common.util.concurrent.Futures;
 import com.viber.bot.api.ViberBot;
+import com.viber.bot.message.Message;
 import com.viber.bot.message.TextMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -46,24 +47,26 @@ public class ViberBotListeners implements ApplicationListener<ApplicationReadyEv
         bot.onMessageReceived((event, message, response) -> {
             registeredUser.addUserProfile(event.getSender());
 
-            String input = message.toString().toLowerCase();
-            if (input.startsWith("start")) {
-                int time = 0;
-                try {
-                    time = Integer.parseInt(input.split(" ")[1]);
-                    response.send(seleniumBotClient.start(time));
-                    log.info("Start Message received. time = "+ time);
-                } catch (Exception e) {
-                    response.send("Wrong format. Please use: 'start ${time}' ");
+            if(message instanceof TextMessage textMessage) {
+                String input = textMessage.getText() == null ?  "" : textMessage.getText().toLowerCase();
+                log.info("Message from viber User {} received: {}", event.getSender().getName(), input);
+                if (input.startsWith("start")) {
+                    int time = 0;
+                    try {
+                        time = Integer.parseInt(input.split(" ")[1]);
+                        response.send(seleniumBotClient.start(time));
+                        log.info("Start Message received. time = " + time);
+                    } catch (Exception e) {
+                        response.send("Wrong format. Please use: 'start ${time}' ");
+                    }
+                } else if (input.startsWith("stop")) {
+                    response.send(seleniumBotClient.stop());
+                } else if (input.startsWith("status")) {
+                    response.send(seleniumBotClient.getStatus());
+                } else {
+                    response.send("Supported commands:\nstart ${time}\nstop\nstatus");
                 }
             }
-            if (input.startsWith("stop")) {
-                response.send(seleniumBotClient.stop());
-            }
-            if (input.startsWith("status")) {
-                response.send(seleniumBotClient.getStatus());
-            }
-            response.send("Supported commands:\nstart ${time}\nstop\nstatus");
         });
 
         bot.onConversationStarted(event -> {

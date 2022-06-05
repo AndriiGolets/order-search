@@ -80,7 +80,7 @@ public class OrdersPageServiceTest extends Assertions {
 
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
-        driver.get("file:///home/andriig/IdeaProjects/selenium-bot/order-pages/several-orders.html");
+        driver.get("file:///home/andriig/IdeaProjects/order-search/selenium-bot/order-pages/several-orders.html");
         Map<String, Order> orderMap = ordersPageService.parseOrderMap(driver);
 
         assertEquals(2, orderMap.size());

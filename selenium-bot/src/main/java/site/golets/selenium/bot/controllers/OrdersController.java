@@ -25,7 +25,7 @@ public class OrdersController {
     }
 
     @GetMapping(path = "start")
-    public void startOrdersSearch(@RequestParam Integer executionTime, HttpServletResponse servletResponse) {
+    public void startOrdersSearch(@RequestParam(required = false) Integer executionTime, HttpServletResponse servletResponse) {
         log.info("start request received");
         if (!schedulerService.startOrderSearchTask(executionTime)) {
             servletResponse.setStatus(201);
@@ -36,7 +36,7 @@ public class OrdersController {
     @GetMapping(path = "stop")
     public void stopOrdersSearch() {
         log.info("stop request received");
-        schedulerService.getTaskEnabled().set(false);
+        schedulerService.stopTask();
     }
 
     @GetMapping(path = "status")

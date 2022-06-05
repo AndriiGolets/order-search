@@ -15,6 +15,7 @@ public class Order {
     private String date;
     private String productVariant;
     private String photoNotOk;
+    private int heads;
 
     @JsonIgnore
     private WebElement tableRow;

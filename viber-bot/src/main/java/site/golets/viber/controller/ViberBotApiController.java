@@ -21,15 +21,18 @@ public class ViberBotApiController {
     }
 
     @PostMapping(path = "new-orders")
-    public void newOrders(@RequestBody List<Order> ordersList){
-        String orders = ordersList.stream().map(Order::toString).reduce((o, o1) -> o + "\n" + o1).orElse("No Orders");
+    public void newOrders(@RequestBody List<Order> ordersList) {
+        String orders =
+                " All = " + ordersList.size() +
+                        "; 4h = " + ordersList.stream().filter(o -> o.getHeads() == 4).count() +
+                        "; 3h = " + ordersList.stream().filter(o -> o.getHeads() == 3).count() + "\n" +
+                        ordersList.stream().sorted().map(Order::toString).reduce((o, o1) -> o + "\n" + o1).orElse("No Orders");
         log.info(orders);
         viberBotService.sendMessageToAlUsers(orders);
     }
 
     @GetMapping
-    public String getTest(){
+    public String getTest() {
         return "Test Ok";
     }
-
 }

@@ -44,6 +44,10 @@ public class SchedulerService {
 
     public boolean startOrderSearchTask(Integer executionTime) {
 
+        if (executionTime == null) {
+            executionTime = 24;
+        }
+
         if (!taskEnabled.get()) {
             endTask = LocalDateTime.now().plusHours(executionTime);
             taskEnabled.set(true);
@@ -67,6 +71,11 @@ public class SchedulerService {
         if(!orderList.isEmpty()) {
             orderCallback.sendNewOrders(orderList);
         }
+    }
+
+    public void stopTask(){
+        taskEnabled.set(false);
+        ordersPageService.getOrdersMap().clear();
     }
 
     private boolean taskNotFinished() {
