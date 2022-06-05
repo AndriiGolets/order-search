@@ -5,12 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import site.golets.selenium.bot.model.Order;
 import site.golets.selenium.bot.model.PreferedOrders;
 import site.golets.selenium.bot.properties.HttpParserProperties;
 
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -24,7 +28,9 @@ public class OrdersPageService {
     public static final By BY_DATA_TITLE = By.cssSelector("div[data-title]");
 
     private final HttpParserProperties properties;
-    private final WebDriver driver;
+
+    @Getter
+    private WebDriver driver;
 
     @Getter
     private final Map<String, Order> ordersMap = new ConcurrentHashMap<>();
@@ -33,9 +39,8 @@ public class OrdersPageService {
     private final Queue<Order> newOrders = new ConcurrentLinkedDeque<>();
 
     @Autowired
-    public OrdersPageService(HttpParserProperties properties, WebDriver driver) {
+    public OrdersPageService(HttpParserProperties properties) {
         this.properties = properties;
-        this.driver = driver;
     }
 
     public void visitOrdersPage() {
@@ -65,7 +70,7 @@ public class OrdersPageService {
             List<WebElement> tableRows;
             try {
                 tableRows = driver.findElements(By.xpath(ORDERS_TABLE_BODY_TR));
-            }catch (Exception e){
+            } catch (Exception e) {
                 continue;
             }
             for (WebElement tableRow : tableRows) {
@@ -104,14 +109,14 @@ public class OrdersPageService {
                         if (orderCell.getAttribute("class").contains("product_variant")) {
                             order.setProductVariant(orderCell.findElement(BY_DATA_TITLE).getText());
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         order.setProductVariant("");
                     }
                     try {
                         if (orderCell.getAttribute("class").contains("photo_not_ok")) {
                             order.setPhotoNotOk(orderCell.findElement(By.xpath(".//*[contains(@class, 'stk-text')]")).getText());
                         }
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         order.setPhotoNotOk("");
                     }
                 }
@@ -119,10 +124,10 @@ public class OrdersPageService {
                 if (!order.getProductTitle().startsWith("Get a digital file") &&
                         !order.getProductTitle().startsWith("Get your canvas")) {
                     order.setTableRow(tableRow);
-                    if (PreferedOrders.threeHeadsOrders.contains(order.getProductTitle())){
+                    if (PreferedOrders.threeHeadsOrders.contains(order.getProductTitle())) {
                         order.setHeads(3);
                     }
-                    if(PreferedOrders.fourHeadsOrders.contains(order.getProductTitle())){
+                    if (PreferedOrders.fourHeadsOrders.contains(order.getProductTitle())) {
                         order.setHeads(4);
                     }
 
@@ -135,4 +140,17 @@ public class OrdersPageService {
         }
         return orderMap;
     }
+
+    public void registerWebDriver() {
+        try {
+            WebDriver webDriver = new RemoteWebDriver(new URL(this.properties.getSeleniumUrl()), new ChromeOptions());
+            log.info("WebDriver Created");
+            driver = webDriver;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Selenium register error : " + e.getMessage(), e);
+        }
+
+    }
+
 }

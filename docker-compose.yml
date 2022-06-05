@@ -21,29 +21,27 @@ services:
       - "8085:8085"
     networks:
       order-search-net:
-    depends_on:
-      - nginx
 
-  selenium-chrome:
-    container_name: selenium-chrome
-    image: selenium/standalone-chrome
-    hostname: selenium-chrome
-    privileged: true
-    shm_size: 2gb
-    ports:
-      - "4444:4444"
-    networks:
-      order-search-net:
-
-  selenium-bot:
-    container_name: selenium-bot
-    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/selenium-bot:0.0.1-SNAPSHOT
-    ports:
-      - "8083:8083"
-    networks:
-      order-search-net:
-    depends_on:
-      - selenium-chrome
+#  selenium-chrome:
+#    container_name: selenium-chrome
+#    image: selenium/standalone-chrome
+#    hostname: selenium-chrome
+#    privileged: true
+#    shm_size: 2gb
+#    ports:
+#      - "4444:4444"
+#    networks:
+#      order-search-net:
+#
+#  selenium-bot:
+#    container_name: selenium-bot
+#    image: 415800032746.dkr.ecr.us-west-2.amazonaws.com/selenium-bot:0.0.1-SNAPSHOT
+#    ports:
+#      - "8083:8083"
+#    networks:
+#      order-search-net:
+#    depends_on:
+#      - selenium-chrome
 
 networks:
   order-search-net:

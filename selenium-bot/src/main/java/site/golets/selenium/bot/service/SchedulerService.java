@@ -17,6 +17,8 @@ public class SchedulerService {
 
     @Getter
     private final AtomicBoolean taskEnabled = new AtomicBoolean(false);
+    @Getter
+    private final AtomicBoolean driverClosed = new AtomicBoolean(true);
 
     @Getter
     public LocalDateTime endTask = LocalDateTime.now();
@@ -40,6 +42,11 @@ public class SchedulerService {
             loginPageService.verifyLogin();
             ordersPageService.parsePageForOrders();
         }
+        if(!taskNotFinished() && !driverClosed.get()) {
+            ordersPageService.getDriver().close();
+            driverClosed.set(true);
+        }
+
     }
 
     public boolean startOrderSearchTask(Integer executionTime) {
@@ -49,6 +56,8 @@ public class SchedulerService {
         }
 
         if (!taskEnabled.get()) {
+            ordersPageService.registerWebDriver();
+            driverClosed.set(false);
             endTask = LocalDateTime.now().plusHours(executionTime);
             taskEnabled.set(true);
             return true;
@@ -75,7 +84,6 @@ public class SchedulerService {
 
     public void stopTask(){
         taskEnabled.set(false);
-        ordersPageService.getOrdersMap().clear();
     }
 
     private boolean taskNotFinished() {

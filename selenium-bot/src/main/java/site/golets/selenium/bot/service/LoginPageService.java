@@ -15,15 +15,15 @@ public class LoginPageService {
 
     public static final int delayAfterLogin = 5000;
     private final HttpParserProperties properties;
-    private final WebDriver driver;
+    private final OrdersPageService ordersPageService;
 
-    public LoginPageService(HttpParserProperties properties, WebDriver driver) {
+    public LoginPageService(HttpParserProperties properties, OrdersPageService ordersPageService) {
         this.properties = properties;
-        this.driver = driver;
+        this.ordersPageService = ordersPageService;
     }
 
     public void verifyLogin() {
-
+        WebDriver driver = ordersPageService.getDriver();
         try {
             if (isLoginPage()) {
                 log.info("Logging in.");
@@ -43,6 +43,7 @@ public class LoginPageService {
     }
 
     private void login()  {
+        WebDriver driver = ordersPageService.getDriver();
         WebElement email = driver.findElement(By.id("email"));
         email.sendKeys(properties.getUserEmail());
         WebElement pass = driver.findElement(By.id("password"));
@@ -57,10 +58,10 @@ public class LoginPageService {
     }
 
     public boolean isLoginPage(){
-        return properties.getLoginPageName().equals(driver.getTitle());
+        return properties.getLoginPageName().equals(ordersPageService.getDriver().getTitle());
     }
 
     public boolean isOrdersPage(){
-        return properties.getOrdersListPageName().equals(driver.getTitle());
+        return properties.getOrdersListPageName().equals(ordersPageService.getDriver().getTitle());
     }
 }

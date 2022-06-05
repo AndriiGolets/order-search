@@ -22,17 +22,4 @@ public class AppConfig {
         this.properties = properties;
     }
 
-    @Bean
-    WebDriver registerWebDriver() {
-        try {
-            WebDriver webDriver = new RemoteWebDriver(new URL(this.properties.getSeleniumUrl()), new ChromeOptions());
-            log.info("WebDriver Created");
-            return webDriver;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Selenium register error : " + e.getMessage(), e);
-        }
-
-    }
-
 }

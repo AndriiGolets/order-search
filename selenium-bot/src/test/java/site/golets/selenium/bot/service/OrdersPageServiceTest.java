@@ -31,7 +31,7 @@ public class OrdersPageServiceTest extends Assertions {
     @Autowired
     private LoginPageService loginPageService;
 
-    @Autowired
+
     private WebDriver webDriver;
 
 //    @Test
