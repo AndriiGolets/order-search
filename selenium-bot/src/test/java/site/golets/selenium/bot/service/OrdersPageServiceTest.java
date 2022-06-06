@@ -50,7 +50,7 @@ public class OrdersPageServiceTest extends Assertions {
 
 
 
-    @Test
+ //   @Test
     public void parseOrderTest() throws IOException, InterruptedException {
 
         WebDriverManager.chromedriver().setup();

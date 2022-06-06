@@ -24,6 +24,7 @@ public class OrdersPageService {
 
     public static final String ORDERS_TABLE_BODY_TR = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr";
     public static final String NEXT_BUTTON = "//*[@id=\"table-container\"]/div[2]/div[2]/button[2]";
+                                              //*[@id="table-container"]  /div[2]/div[2]/button[2]
     public static final String NAME_CELL_PATH = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr[%d]/td[1]/div/div[2]/div/div[1]/div[1]";
     public static final String PRODUCT_CELL_PATH = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr[%d]/td[3]/div/div/div[1]/div[1]";
     public static final String PHOTO_NOT_OK = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr[%d]/td[6]/div/div/div/div";
@@ -87,9 +88,9 @@ public class OrdersPageService {
             for (int i = 1; i <= tableRows.size(); i++) {
                 Order order = new Order();
                 try {
-                    order.setName(driver.findElement(By.xpath(String.format(NAME_CELL_PATH, i))).getText());
+//                    order.setName(driver.findElement(By.xpath(String.format(NAME_CELL_PATH, i))).getText());
                     order.setProductTitle(driver.findElement(By.xpath(String.format(PRODUCT_CELL_PATH, i))).getText());
-                    order.setPhotoNotOk(driver.findElement(By.xpath(String.format(PHOTO_NOT_OK, i))).getText());
+//                    order.setPhotoNotOk(driver.findElement(By.xpath(String.format(PHOTO_NOT_OK, i))).getText());
 
                     log.info(order.toString());
 

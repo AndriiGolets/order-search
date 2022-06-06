@@ -2,7 +2,6 @@ package site.golets.viber.listener;
 
 import com.google.common.util.concurrent.Futures;
 import com.viber.bot.api.ViberBot;
-import com.viber.bot.message.Message;
 import com.viber.bot.message.TextMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
