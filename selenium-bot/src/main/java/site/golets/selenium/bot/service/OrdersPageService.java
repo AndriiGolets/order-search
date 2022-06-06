@@ -89,8 +89,8 @@ public class OrdersPageService {
                 Order order = new Order();
                 try {
                     order.setName(driver.findElement(By.xpath(String.format(NAME_CELL_PATH, i))).getText());
-                    order.setProductTitle(driver.findElement(By.xpath(String.format(PRODUCT_CELL_PATH, i))).getText());
-//                    order.setPhotoNotOk(driver.findElement(By.xpath(String.format(PHOTO_NOT_OK, i))).getText());
+                    order.setProductTitle(driver.findElement(By.xpath(String.format(PRODUCT_CELL_PATH, i))).getText().trim());
+                    order.setPhotoNotOk(driver.findElement(By.xpath(String.format(PHOTO_NOT_OK, i))).getText());
 
                     log.info(order.toString());
 
