@@ -19,7 +19,7 @@ public class OrderCallbackTest extends Assertions {
     public void sendNewOrders(){
 
         List<Order> orderList = new ArrayList<>();
-        orderList.add(new Order().setName("#70311").setDate("").setProductTitle("King of the North").setArtist("").setTableRow(null));
+        orderList.add(new Order().setName("#70311").setDate("").setProductTitle("King of the North").setArtist(""));
         orderCallback.sendNewOrders(orderList);
     }
 

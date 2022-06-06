@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//@SpringBootTest
+
+@SpringBootTest(properties = "http.parser.seleniumUrl=http://localhost:4444/wd/hub")
 public class OrdersPageServiceTest extends Assertions {
 
     @Autowired
@@ -47,35 +48,9 @@ public class OrdersPageServiceTest extends Assertions {
 
     }
 
-//    @Test
-    public void getOrderPage() throws IOException, InterruptedException {
 
-        ordersPageService.visitOrdersPage();
-        loginPageService.verifyLogin();
 
-//        WebDriverManager.chromedriver().setup();
-//        WebDriver driver = new ChromeDriver();
-//        driver.get("file:///home/andriig/IdeaProjects/selenium-bot/order-pages/order-page.html");
-
-        Map<String, Order> orderMap = ordersPageService.parseOrderMap(webDriver);
-
-        orderMap.values().stream().findFirst().get().getTableRow().click();
-
-        Thread.sleep(3000);
-
-        assertTrue(webDriver.getTitle().startsWith("#"));
-
-        WebElement editButton = webDriver.findElement(By.xpath("//*[@id=\"page\"]/div/div[3]/div/div/div/div/div/div[2]/div[3]/button"));
-        editButton.click();
-
-        Thread.sleep(3000);
-
-        PrintWriter out = new PrintWriter("result.html");
-        out.println(webDriver.getPageSource());
-        webDriver.close();
-    }
-
-//    @Test
+    @Test
     public void parseOrderTest() throws IOException, InterruptedException {
 
         WebDriverManager.chromedriver().setup();

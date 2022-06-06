@@ -17,7 +17,4 @@ public class Order {
     private String photoNotOk;
     private int heads;
 
-    @JsonIgnore
-    private WebElement tableRow;
-
 }

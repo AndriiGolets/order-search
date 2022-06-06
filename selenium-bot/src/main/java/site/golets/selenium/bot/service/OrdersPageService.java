@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import site.golets.selenium.bot.model.Order;
 import site.golets.selenium.bot.model.PreferedOrders;
@@ -25,7 +24,10 @@ public class OrdersPageService {
 
     public static final String ORDERS_TABLE_BODY_TR = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr";
     public static final String NEXT_BUTTON = "//*[@id=\"table-container\"]/div[2]/div[2]/button[2]";
-    public static final By BY_DATA_TITLE = By.cssSelector("div[data-title]");
+    public static final String NAME_CELL_PATH = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr[%d]/td[1]/div/div[2]/div/div[1]/div[1]";
+    public static final String PRODUCT_CELL_PATH = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr[%d]/td[3]/div/div/div[1]/div[1]";
+    public static final String PHOTO_NOT_OK = "//*[@id=\"table-container\"]/div[1]/div/table/tbody/tr[%d]/td[6]/div/div/div/div";
+
 
     private final HttpParserProperties properties;
 
@@ -65,76 +67,48 @@ public class OrdersPageService {
 
         boolean nextPagePresent = true;
         while (nextPagePresent) {
-            WebElement nextButton = driver.findElement(By.xpath(NEXT_BUTTON));
-            nextPagePresent = nextButton.isEnabled();
+            WebElement nextButton = null;
+            try {
+                nextButton = driver.findElement(By.xpath(NEXT_BUTTON));
+                nextPagePresent = nextButton.isEnabled();
+            } catch (Exception e) {
+                log.warn("NEXT_BUTTON Parse Error", e);
+                nextPagePresent = false;
+            }
+
             List<WebElement> tableRows;
             try {
                 tableRows = driver.findElements(By.xpath(ORDERS_TABLE_BODY_TR));
             } catch (Exception e) {
+                log.warn("ORDERS_TABLE_BODY_TR Parse Error", e);
                 continue;
             }
-            for (WebElement tableRow : tableRows) {
-                List<WebElement> orderCells = tableRow.findElements(By.xpath(".//td"));
-                Order order = new Order();
-                for (WebElement orderCell : orderCells) {
-                    try {
-                        if (orderCell.getAttribute("class").contains("name")) {
-                            order.setName(orderCell.findElement(BY_DATA_TITLE).getText());
-                        }
-                    } catch (Exception e) {
-                        order.setName("");
-                    }
-                    try {
-                        if (orderCell.getAttribute("class").contains("artist")) {
-                            order.setArtist(orderCell.findElement(BY_DATA_TITLE).getText());
-                        }
-                    } catch (Exception e) {
-                        order.setArtist("");
-                    }
-                    try {
-                        if (orderCell.getAttribute("class").contains("product_title")) {
-                            order.setProductTitle(orderCell.findElement(BY_DATA_TITLE).getText());
-                        }
-                    } catch (Exception e) {
-                        order.setProductTitle("");
-                    }
-                    try {
-                        if (orderCell.getAttribute("class").contains("date")) {
-                            order.setDate(orderCell.findElement(BY_DATA_TITLE).getText());
-                        }
-                    } catch (Exception e) {
-                        order.setDate("");
-                    }
-                    try {
-                        if (orderCell.getAttribute("class").contains("product_variant")) {
-                            order.setProductVariant(orderCell.findElement(BY_DATA_TITLE).getText());
-                        }
-                    } catch (Exception e) {
-                        order.setProductVariant("");
-                    }
-                    try {
-                        if (orderCell.getAttribute("class").contains("photo_not_ok")) {
-                            order.setPhotoNotOk(orderCell.findElement(By.xpath(".//*[contains(@class, 'stk-text')]")).getText());
-                        }
-                    } catch (Exception e) {
-                        order.setPhotoNotOk("");
-                    }
-                }
-                log.info(order.toString());
-                if (!order.getProductTitle().startsWith("Get a digital file") &&
-                        !order.getProductTitle().startsWith("Get your canvas")) {
-                    order.setTableRow(tableRow);
-                    if (PreferedOrders.threeHeadsOrders.contains(order.getProductTitle())) {
-                        order.setHeads(3);
-                    }
-                    if (PreferedOrders.fourHeadsOrders.contains(order.getProductTitle())) {
-                        order.setHeads(4);
-                    }
 
-                    orderMap.put(order.getName(), order);
+            for (int i = 1; i <= tableRows.size(); i++) {
+                Order order = new Order();
+                try {
+                    order.setName(driver.findElement(By.xpath(String.format(NAME_CELL_PATH, i))).getText());
+                    order.setProductTitle(driver.findElement(By.xpath(String.format(PRODUCT_CELL_PATH, i))).getText());
+                    order.setPhotoNotOk(driver.findElement(By.xpath(String.format(PHOTO_NOT_OK, i))).getText());
+
+                    log.info(order.toString());
+
+                    if (!order.getProductTitle().startsWith("Get a digital file") &&
+                            !order.getProductTitle().startsWith("Get your canvas")) {
+                        if (PreferedOrders.threeHeadsOrders.contains(order.getProductTitle())) {
+                            order.setHeads(3);
+                        }
+                        if (PreferedOrders.fourHeadsOrders.contains(order.getProductTitle())) {
+                            order.setHeads(4);
+                        }
+                        log.info(order.toString());
+                        orderMap.put(order.getName(), order);
+                    }
+                } catch (Exception e) {
+                    log.warn("CELL_PATH Parse Error", e);
                 }
             }
-            if (nextPagePresent) {
+            if (nextPagePresent && nextButton != null) {
                 nextButton.click();
             }
         }
