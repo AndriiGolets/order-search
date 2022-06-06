@@ -92,7 +92,7 @@ public class OrdersPageService {
                     order.setProductTitle(driver.findElement(By.xpath(String.format(PRODUCT_CELL_PATH, i))).getText().trim());
                     order.setPhotoNotOk(driver.findElement(By.xpath(String.format(PHOTO_NOT_OK, i))).getText());
 
-                    log.info(order.toString());
+                    log.debug(order.toString());
 
                     if (!order.getProductTitle().startsWith("Get a digital file") &&
                             !order.getProductTitle().startsWith("Get your canvas")) {
@@ -113,6 +113,10 @@ public class OrdersPageService {
                 nextButton.click();
             }
         }
+        log.info("Orders parsed :" + orderMap.size() +
+                " 4h orders :" + orderMap.values().stream().filter(o-> o.getHeads() == 4).count() +
+                " 3h orders :" + orderMap.values().stream().filter(o-> o.getHeads() == 3).count()
+        );
         return orderMap;
     }
 
